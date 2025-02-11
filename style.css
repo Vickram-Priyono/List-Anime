@@ -1,0 +1,10 @@
+.test {
+  border: solid black 1px;
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+#inputnumber {
+  width: 50px;
+}
