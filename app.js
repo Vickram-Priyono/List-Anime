@@ -1,13 +1,3 @@
-// axios
-//   .get("https://api.jikan.moe/v4/anisme/30276")
-//   .then((res) => {
-//     console.log(res.data.data);
-//     alert(`${res.data.data.title}\n\n${res.data.data.synopsis}`);
-//   })
-//   .catch((err) => {
-//     alert(`${err.code}\n${err.message}\n${err.status}`);
-//   });
-
 const animeContainer = document.createElement(`div`);
 document.body.appendChild(animeContainer);
 
