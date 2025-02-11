@@ -1,40 +1,41 @@
-const animeContainer = document.createElement(`div`);
+const animeContainer = document.createElement("div");
+animeContainer.id = "animeContainer"; // Pastikan ID sesuai dengan CSS
 document.body.appendChild(animeContainer);
 
-const form = document.querySelector(`#carianime`);
+const form = document.querySelector("#carianime");
 
-form.addEventListener(`submit`, async function (event) {
+form.addEventListener("submit", async function (event) {
   try {
-    event.preventDefault(); // Mencegah form submit default
+    event.preventDefault();
 
-    const submitButton = form.querySelector(`button[type="submit"]`);
-    submitButton.disabled = true; // Menonaktifkan tombol submit
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
 
-    const inputValue = document.querySelector(`#judul`).value.trim();
+    const inputValue = document.querySelector("#judul").value.trim();
     const inputNumberValue = document
-      .querySelector(`input[type="number"]`)
+      .querySelector('input[type="number"]')
       .value.trim();
 
-    if (inputNumberValue === ``) {
-      alert(`input number tidak bisa kosong`);
-      submitButton.disabled = false; // Mengaktifkan kembali tombol submit
+    if (inputNumberValue === "") {
+      alert("Input number tidak bisa kosong");
+      submitButton.disabled = false;
       return;
     } else if (inputNumberValue > 25) {
-      alert(`input number tidak bisa lebih dari 25`);
-      submitButton.disabled = false; // Mengaktifkan kembali tombol submit
+      alert("Input number tidak bisa lebih dari 25");
+      submitButton.disabled = false;
       return;
     }
 
     if (animeContainer.childElementCount > 0) {
-      animeContainer.innerHTML = ``;
+      animeContainer.innerHTML = "";
     }
 
-    await getAnime(inputValue, inputNumberValue); // Menunggu proses getAnime selesai
+    await getAnime(inputValue, inputNumberValue);
   } catch (err) {
     console.log(err);
   } finally {
-    const submitButton = form.querySelector(`button[type="submit"]`);
-    submitButton.disabled = false; // Mengaktifkan kembali tombol submit setelah proses selesai
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = false;
   }
 });
 
@@ -45,13 +46,24 @@ const getAnime = async (q, limit = 5) => {
     );
     get.data.data.forEach((element) => {
       const title = element.title;
-      const animeChild = document.createElement(`a`);
+      const animeChild = document.createElement("a");
+      const icon = document.createElement("img");
+      icon.setAttribute("src", element.images.webp.image_url);
+
+      // Tambahkan div wrapper
+      const animeItem = document.createElement("div");
+      animeItem.classList.add("anime-item");
+
       animeChild.textContent = title;
       animeChild.href = element.url;
-      animeChild.classList.add(`test`);
-      animeChild.setAttribute(`target`, `_blank`);
-      animeContainer.appendChild(animeChild);
-      console.log(element.url);
+      animeChild.classList.add("test");
+      animeChild.setAttribute("target", "_blank");
+
+      // Masukkan elemen ke dalam wrapper
+      animeItem.appendChild(animeChild);
+      animeChild.appendChild(icon);
+      animeContainer.appendChild(animeItem); // Tambahkan wrapper ke container
+      console.log(element);
     });
   } catch (err) {
     alert(err.response.data.messages.limit[0]);
